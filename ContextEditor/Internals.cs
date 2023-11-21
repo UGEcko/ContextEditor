@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Drawing;
 using System.IO;
 using Microsoft.Win32;
 
@@ -14,7 +8,7 @@ namespace ContextEditor
     {
         public void log(string log)
         {
-            Console.WriteLine($"[{DateTime.Now.ToShortDateString()}] | Editor: {log}");
+            Console.WriteLine($"[{DateTime.Now.ToShortTimeString()}] | Editor: {log}");
         }
 
         public bool verifyParams()
@@ -131,7 +125,7 @@ namespace ContextEditor
             return logString;
         }
 
-        public void updateListBox() // Just a checker
+        public void updateListBox() // Refreshes the list box, best for accurate index between the existingkeys array and GetExisting() ykyk
         {
             main_listbox.Items.Clear();
             foreach (string key in GetExistingKeys()) // Register existing keys into the listbox
@@ -140,6 +134,7 @@ namespace ContextEditor
                 item.Name = key;
                 main_listbox.Items.Add(item);
             }
+            log("Updated listbox");
         }
         
 

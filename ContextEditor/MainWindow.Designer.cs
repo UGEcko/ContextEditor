@@ -182,6 +182,8 @@ namespace ContextEditor
             this.Controls.Add(this.main_directoryTextbox);
             this.Controls.Add(this.main_nameTextbox);
             this.Controls.Add(this.main_Label);
+            this.MaximumSize = new System.Drawing.Size(575, 360);
+            this.MinimumSize = new System.Drawing.Size(575, 360);
             this.Name = "MainWindow";
             this.Text = "Context Editor";
             this.ResumeLayout(false);
