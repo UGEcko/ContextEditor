@@ -69,7 +69,7 @@ namespace ContextEditor
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Title = "Select a File";
-                openFileDialog.Filter = "Icon Files (*.ico)|*.ico|Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
+                openFileDialog.Filter = "Icon Files (*.ico)|*.ico";
 
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)

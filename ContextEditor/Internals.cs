@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.Win32;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace ContextEditor
 {
@@ -24,18 +25,9 @@ namespace ContextEditor
 
                 if (main_iconDirectoryCheckbox.Checked)
                 {
-                    if (File.Exists(iconDir) && main_iconDirectoryTextbox.Text.EndsWith(".ico") || File.Exists(iconDir) && main_iconDirectoryTextbox.Text.EndsWith(".exe"))
+                    if (File.Exists(iconDir) && main_iconDirectoryTextbox.Text.EndsWith(".ico"))
                     {
-                        if (File.Exists(iconDir))
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            log("Invalid icon directory");
-                            main_addButton.Enabled = false;
-                            return false;
-                        }
+                        return true;
                     }
                     else
                     {
@@ -52,6 +44,7 @@ namespace ContextEditor
             else
             {
                 log("Invalid name or directory " + iconDir);
+                MessageBox.Show("Invalid name or directory " + iconDir);
                 main_addButton.Enabled = false;
                 return false;
             }
@@ -124,6 +117,8 @@ namespace ContextEditor
                             else
                             {
                                 Console.WriteLine("Failed to create registry key.");
+                                MessageBox.Show("Failed to create registry key.");
+                                
                             }
                         }
 
@@ -149,6 +144,7 @@ namespace ContextEditor
             else
             {
                 Console.WriteLine("File does not exist: " + dir);
+                MessageBox.Show("File does not exist: " + dir);
             }
         }
         public static void RemoveKey(string name)
@@ -163,6 +159,7 @@ namespace ContextEditor
                 }
                 else
                 {
+                    MessageBox.Show($"Context not found: {name}");
                     Console.WriteLine($"Context menu not found: {name}");
                 }
             }
@@ -180,6 +177,7 @@ namespace ContextEditor
                 }
                 else
                 {
+                    MessageBox.Show("Failed to open registry key. 'GetExistingKeys'");
                     Console.WriteLine("Failed to open registry key.");
                 }
             }
@@ -211,8 +209,9 @@ namespace ContextEditor
                     }
                     else
                     {
-                        Console.WriteLine("Failed to open registry key.");
-                        return existingDirs;
+                    MessageBox.Show("Failed to open registry key. 'GetExistingDirectories'");
+                    Console.WriteLine("Failed to open registry key.");
+                    return existingDirs;
                     }
                 return existingDirs;
                 }
