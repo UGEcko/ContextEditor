@@ -32,3 +32,11 @@ Nice to knows:
 * The add button is not enabled unless a valid name and directory is provided. If you check the icon field, the icon must be valid aswell.
 * The remove button is not enabled unless a name in the list has been selected.
 
+
+Roadmap:
+
+Add Directory information in list
+
+Make UI the best it can be
+
+
