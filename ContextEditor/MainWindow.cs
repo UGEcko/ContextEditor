@@ -65,11 +65,14 @@ namespace ContextEditor
 
         private void main_listbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedItem = main_listbox.SelectedItem;
-            selectedItemIndex = main_listbox.SelectedIndex;
-            main_directoryTextbox.Text = GetExistingDirectories()[selectedItemIndex];
-            main_nameTextbox.Text = GetExistingKeys()[selectedItemIndex];
-            main_removeButton.Enabled = true;
+            if(selectedItemIndex != 0 || selectedItemIndex >= GetExistingKeys().Count) // Good fix for invalid numbers (usually when you click on the listbox but not an item), made it crash the program.
+            {
+                selectedItem = main_listbox.SelectedItem;
+                selectedItemIndex = main_listbox.SelectedIndex;
+                main_directoryTextbox.Text = GetExistingDirectories()[selectedItemIndex];
+                main_nameTextbox.Text = GetExistingKeys()[selectedItemIndex];
+                main_removeButton.Enabled = true;
+            }
         }
 
         private void main_iconDirectoryCheckbox_CheckedChanged(object sender, EventArgs e)
