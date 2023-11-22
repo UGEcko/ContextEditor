@@ -1,7 +1,8 @@
 # ContextEditor
 A windows application enabling you to edit context menu buttons! (readMe will be updated when im not sleep deprived)
 
-![image](https://github.com/UGEcko/ContextEditor/assets/38820051/4bf6c8a5-1d98-411f-88ad-edbf949bbc07)
+![image](https://github.com/UGEcko/ContextEditor/assets/38820051/f849f806-bb65-4ebf-a35d-9be2d34cb046)
+
 
 
 
