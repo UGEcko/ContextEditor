@@ -29,6 +29,7 @@ namespace ContextEditor
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.main_Label = new System.Windows.Forms.Label();
             this.main_nameTextbox = new System.Windows.Forms.TextBox();
             this.main_directoryTextbox = new System.Windows.Forms.TextBox();
@@ -201,6 +202,7 @@ namespace ContextEditor
             this.Controls.Add(this.main_directoryTextbox);
             this.Controls.Add(this.main_nameTextbox);
             this.Controls.Add(this.main_Label);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(575, 360);
             this.MinimumSize = new System.Drawing.Size(575, 360);
             this.Name = "MainWindow";
