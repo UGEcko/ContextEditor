@@ -54,7 +54,7 @@ namespace ContextEditor
         }
         private void main_iconDirectoryTextbox_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(main_iconDirectoryTextbox.Text) && main_iconDirectoryTextbox.Text.EndsWith(".ico"))
+            if (File.Exists(main_iconDirectoryTextbox.Text) && main_iconDirectoryTextbox.Text.EndsWith(".ico") || File.Exists(main_iconDirectoryTextbox.Text) && main_iconDirectoryTextbox.Text.EndsWith(".exe"))
             {
                 main_iconDirectoryTextbox.ForeColor = Color.Green;
             } else
@@ -65,14 +65,18 @@ namespace ContextEditor
 
         private void main_listbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(selectedItemIndex != 0 || selectedItemIndex >= GetExistingKeys().Count) // Good fix for invalid numbers (usually when you click on the listbox but not an item), made it crash the program.
+            try // Better way of checking for invalid/null index instead of crashing the program eh?
             {
                 selectedItem = main_listbox.SelectedItem;
                 selectedItemIndex = main_listbox.SelectedIndex;
                 main_directoryTextbox.Text = GetExistingDirectories()[selectedItemIndex];
                 main_nameTextbox.Text = GetExistingKeys()[selectedItemIndex];
                 main_removeButton.Enabled = true;
+            } catch(Exception ex)
+            {
+                log(ex.Message);
             }
+               
         }
 
         private void main_iconDirectoryCheckbox_CheckedChanged(object sender, EventArgs e)
