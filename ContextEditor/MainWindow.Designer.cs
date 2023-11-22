@@ -41,31 +41,32 @@ namespace ContextEditor
             this.main_iconDirectoryCheckbox = new System.Windows.Forms.CheckBox();
             this.main_browseIconButton = new System.Windows.Forms.Button();
             this.main_browseDirectoryButton = new System.Windows.Forms.Button();
+            this.main_showDirectoryCheck = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // main_Label
             // 
             this.main_Label.AutoSize = true;
-            this.main_Label.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.main_Label.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.main_Label.Location = new System.Drawing.Point(12, 15);
             this.main_Label.Name = "main_Label";
-            this.main_Label.Size = new System.Drawing.Size(98, 19);
+            this.main_Label.Size = new System.Drawing.Size(138, 19);
             this.main_Label.TabIndex = 4;
-            this.main_Label.Text = "Context Editor";
+            this.main_Label.Text = "Context Editor V1.2";
             // 
             // main_nameTextbox
             // 
-            this.main_nameTextbox.Location = new System.Drawing.Point(16, 85);
+            this.main_nameTextbox.Location = new System.Drawing.Point(13, 90);
             this.main_nameTextbox.Name = "main_nameTextbox";
-            this.main_nameTextbox.Size = new System.Drawing.Size(179, 20);
+            this.main_nameTextbox.Size = new System.Drawing.Size(228, 20);
             this.main_nameTextbox.TabIndex = 6;
             this.main_nameTextbox.TextChanged += new System.EventHandler(this.main_nameTextbox_TextChanged);
             // 
             // main_directoryTextbox
             // 
-            this.main_directoryTextbox.Location = new System.Drawing.Point(72, 142);
+            this.main_directoryTextbox.Location = new System.Drawing.Point(61, 147);
             this.main_directoryTextbox.Name = "main_directoryTextbox";
-            this.main_directoryTextbox.Size = new System.Drawing.Size(123, 20);
+            this.main_directoryTextbox.Size = new System.Drawing.Size(180, 20);
             this.main_directoryTextbox.TabIndex = 8;
             this.main_directoryTextbox.TextChanged += new System.EventHandler(this.main_directoryTextbox_TextChanged);
             // 
@@ -73,7 +74,7 @@ namespace ContextEditor
             // 
             this.main_ProgramLabel.AutoSize = true;
             this.main_ProgramLabel.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.main_ProgramLabel.Location = new System.Drawing.Point(20, 120);
+            this.main_ProgramLabel.Location = new System.Drawing.Point(12, 125);
             this.main_ProgramLabel.Name = "main_ProgramLabel";
             this.main_ProgramLabel.Size = new System.Drawing.Size(121, 19);
             this.main_ProgramLabel.TabIndex = 9;
@@ -83,7 +84,7 @@ namespace ContextEditor
             // 
             this.main_nameLabel.AutoSize = true;
             this.main_nameLabel.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.main_nameLabel.Location = new System.Drawing.Point(20, 63);
+            this.main_nameLabel.Location = new System.Drawing.Point(12, 68);
             this.main_nameLabel.Name = "main_nameLabel";
             this.main_nameLabel.Size = new System.Drawing.Size(46, 19);
             this.main_nameLabel.TabIndex = 10;
@@ -92,10 +93,11 @@ namespace ContextEditor
             // main_addButton
             // 
             this.main_addButton.Enabled = false;
+            this.main_addButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.main_addButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.main_addButton.Location = new System.Drawing.Point(16, 221);
+            this.main_addButton.Location = new System.Drawing.Point(13, 226);
             this.main_addButton.Name = "main_addButton";
-            this.main_addButton.Size = new System.Drawing.Size(179, 30);
+            this.main_addButton.Size = new System.Drawing.Size(228, 30);
             this.main_addButton.TabIndex = 11;
             this.main_addButton.Text = "Add";
             this.main_addButton.UseVisualStyleBackColor = true;
@@ -104,10 +106,11 @@ namespace ContextEditor
             // main_removeButton
             // 
             this.main_removeButton.Enabled = false;
+            this.main_removeButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.main_removeButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.main_removeButton.Location = new System.Drawing.Point(201, 279);
+            this.main_removeButton.Location = new System.Drawing.Point(250, 279);
             this.main_removeButton.Name = "main_removeButton";
-            this.main_removeButton.Size = new System.Drawing.Size(346, 30);
+            this.main_removeButton.Size = new System.Drawing.Size(297, 30);
             this.main_removeButton.TabIndex = 12;
             this.main_removeButton.Text = "Remove";
             this.main_removeButton.UseVisualStyleBackColor = true;
@@ -116,24 +119,26 @@ namespace ContextEditor
             // main_listbox
             // 
             this.main_listbox.FormattingEnabled = true;
-            this.main_listbox.Location = new System.Drawing.Point(201, 15);
+            this.main_listbox.HorizontalScrollbar = true;
+            this.main_listbox.Location = new System.Drawing.Point(250, 15);
             this.main_listbox.Name = "main_listbox";
-            this.main_listbox.Size = new System.Drawing.Size(346, 264);
+            this.main_listbox.Size = new System.Drawing.Size(297, 264);
             this.main_listbox.TabIndex = 13;
             this.main_listbox.SelectedIndexChanged += new System.EventHandler(this.main_listbox_SelectedIndexChanged);
             // 
             // main_iconDirectoryTextbox
             // 
-            this.main_iconDirectoryTextbox.Location = new System.Drawing.Point(72, 195);
+            this.main_iconDirectoryTextbox.Enabled = false;
+            this.main_iconDirectoryTextbox.Location = new System.Drawing.Point(61, 200);
             this.main_iconDirectoryTextbox.Name = "main_iconDirectoryTextbox";
-            this.main_iconDirectoryTextbox.Size = new System.Drawing.Size(123, 20);
+            this.main_iconDirectoryTextbox.Size = new System.Drawing.Size(180, 20);
             this.main_iconDirectoryTextbox.TabIndex = 15;
             this.main_iconDirectoryTextbox.TextChanged += new System.EventHandler(this.main_iconDirectoryTextbox_TextChanged);
             // 
             // main_iconDirectoryCheckbox
             // 
             this.main_iconDirectoryCheckbox.AutoSize = true;
-            this.main_iconDirectoryCheckbox.Location = new System.Drawing.Point(24, 168);
+            this.main_iconDirectoryCheckbox.Location = new System.Drawing.Point(16, 177);
             this.main_iconDirectoryCheckbox.Name = "main_iconDirectoryCheckbox";
             this.main_iconDirectoryCheckbox.Size = new System.Drawing.Size(47, 17);
             this.main_iconDirectoryCheckbox.TabIndex = 16;
@@ -143,33 +148,47 @@ namespace ContextEditor
             // 
             // main_browseIconButton
             // 
+            this.main_browseIconButton.Enabled = false;
             this.main_browseIconButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.main_browseIconButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.main_browseIconButton.Location = new System.Drawing.Point(24, 195);
+            this.main_browseIconButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.main_browseIconButton.Location = new System.Drawing.Point(13, 199);
             this.main_browseIconButton.Name = "main_browseIconButton";
             this.main_browseIconButton.Size = new System.Drawing.Size(42, 20);
             this.main_browseIconButton.TabIndex = 17;
-            this.main_browseIconButton.Text = "...";
+            this.main_browseIconButton.Text = "Browse";
             this.main_browseIconButton.UseVisualStyleBackColor = true;
             this.main_browseIconButton.Click += new System.EventHandler(this.main_browseIconButton_Click);
             // 
             // main_browseDirectoryButton
             // 
             this.main_browseDirectoryButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.main_browseDirectoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.main_browseDirectoryButton.Location = new System.Drawing.Point(24, 142);
+            this.main_browseDirectoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.main_browseDirectoryButton.Location = new System.Drawing.Point(13, 147);
             this.main_browseDirectoryButton.Name = "main_browseDirectoryButton";
             this.main_browseDirectoryButton.Size = new System.Drawing.Size(42, 20);
-            this.main_browseDirectoryButton.TabIndex = 18;
-            this.main_browseDirectoryButton.Text = "...";
+            this.main_browseDirectoryButton.TabIndex = 19;
+            this.main_browseDirectoryButton.Text = "Browse";
             this.main_browseDirectoryButton.UseVisualStyleBackColor = true;
             this.main_browseDirectoryButton.Click += new System.EventHandler(this.main_browseDirectoryButton_Click);
+            // 
+            // main_showDirectoryCheck
+            // 
+            this.main_showDirectoryCheck.AutoSize = true;
+            this.main_showDirectoryCheck.Location = new System.Drawing.Point(16, 262);
+            this.main_showDirectoryCheck.Name = "main_showDirectoryCheck";
+            this.main_showDirectoryCheck.Size = new System.Drawing.Size(148, 17);
+            this.main_showDirectoryCheck.TabIndex = 21;
+            this.main_showDirectoryCheck.Text = "Show Program Directories";
+            this.main_showDirectoryCheck.UseVisualStyleBackColor = true;
+            this.main_showDirectoryCheck.CheckedChanged += new System.EventHandler(this.main_showDirectoryCheck_CheckedChanged);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(559, 321);
+            this.Controls.Add(this.main_showDirectoryCheck);
             this.Controls.Add(this.main_browseDirectoryButton);
             this.Controls.Add(this.main_browseIconButton);
             this.Controls.Add(this.main_iconDirectoryCheckbox);
@@ -204,6 +223,7 @@ namespace ContextEditor
         private System.Windows.Forms.CheckBox main_iconDirectoryCheckbox;
         private System.Windows.Forms.Button main_browseIconButton;
         private System.Windows.Forms.Button main_browseDirectoryButton;
+        private System.Windows.Forms.CheckBox main_showDirectoryCheck;
     }
 }
 

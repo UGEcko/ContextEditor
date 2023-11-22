@@ -24,7 +24,14 @@ namespace ContextEditor
                     AddKey(savedName, savedDir);
                 }
                 log($"Removed {item.Name}");
-                updateListBox();
+                if (main_showDirectoryCheck.Checked == true)
+                {
+                    updateListBox(true);
+                }
+                else
+                {
+                    updateListBox(false);
+                }
             }
             catch (Exception ex)
             {
@@ -42,7 +49,13 @@ namespace ContextEditor
                 main_removeButton.Enabled = false;
                 RemoveKey(GetExistingKeys()[itemIndex]); // Use selectedIndex and arrayindex to find the correct item and delete it!
                 log($"Removed {item}");
-                updateListBox();
+                if(main_showDirectoryCheck.Checked == true)
+                {
+                    updateListBox(true);
+                } else
+                {
+                    updateListBox(false);
+                }
             }
             catch (Exception ex)
             {
@@ -56,7 +69,8 @@ namespace ContextEditor
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Title = "Select a File";
-                openFileDialog.Filter = "Icon Files|*.ico";
+                openFileDialog.Filter = "Icon Files (*.ico)|*.ico|Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
+
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {

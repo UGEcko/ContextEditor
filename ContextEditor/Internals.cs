@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Win32;
+using System.Collections.Generic;
 
 namespace ContextEditor
 {
@@ -11,32 +12,51 @@ namespace ContextEditor
             Console.WriteLine($"[{DateTime.Now.ToShortTimeString()}] | Editor: {log}");
         }
 
-        public bool verifyParams()
+        public bool VerifyParams()
         {
-            if (File.Exists(main_directoryTextbox.Text) == true && main_nameTextbox.Text != "")
+            string directory = main_directoryTextbox.Text.Trim();
+            string iconDir = main_iconDirectoryTextbox.Text.Trim();
+
+            if (File.Exists(directory) && !string.IsNullOrWhiteSpace(main_nameTextbox.Text))
             {
                 log("Valid name and directory");
                 main_addButton.Enabled = true;
-                
-                if(main_iconDirectoryCheckbox.Checked = true && File.Exists(main_iconDirectoryTextbox.Text) && main_iconDirectoryTextbox.Text.EndsWith(".ico"))
+
+                if (main_iconDirectoryCheckbox.Checked)
+                {
+                    if (File.Exists(iconDir) && main_iconDirectoryTextbox.Text.EndsWith(".ico") || File.Exists(iconDir) && main_iconDirectoryTextbox.Text.EndsWith(".exe"))
+                    {
+                        if (File.Exists(iconDir))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            log("Invalid icon directory");
+                            main_addButton.Enabled = false;
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        log("Invalid icon directory or not a .ico file");
+                        main_addButton.Enabled = false;
+                        return false;
+                    }
+                }
+                else
                 {
                     return true;
-                } else if(main_iconDirectoryCheckbox.Checked == false)
-                {
-                    return true;
-                } else
-                {
-                    main_addButton.Enabled = false;
-                    return false;
                 }
             }
             else
             {
-                log("Invalid name or directory");
+                log("Invalid name or directory " + iconDir);
                 main_addButton.Enabled = false;
                 return false;
             }
         }
+
 
         public class listItem
         {
@@ -45,23 +65,38 @@ namespace ContextEditor
 
             public override string ToString()
             {
-                return Name;
+                return $"Name: {Name}";
             }
             public string getFullText()
             {
                 return $"Name: {Name} / Directory: {Directory}";
             }
         }
-
-
         public static void AddKey(string name, string dir)
         {
             if (File.Exists(dir))
             {
-                using (var key = Registry.ClassesRoot.OpenSubKey("Directory\\Background\\shell", true)?.CreateSubKey(name)?.CreateSubKey("command"))
+                using (var shellKey = Registry.ClassesRoot.OpenSubKey("Directory\\Background\\shell", true))
                 {
-                    key?.SetValue("", dir);
-                    Console.WriteLine(key != null ? "Created key: " + key.ToString() : "Failed to create registry key.");
+                    if (shellKey != null)
+                    {
+                        using (var newKey = shellKey.CreateSubKey(name)?.CreateSubKey("command"))
+                        {
+                            if (newKey != null)
+                            {
+                                newKey.SetValue("", dir);
+                                Console.WriteLine("Created key: " + newKey.ToString());
+                            }
+                            else
+                            {
+                                Console.WriteLine("Failed to create registry key.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to open shell registry key.");
+                    }
                 }
             }
             else
@@ -69,15 +104,46 @@ namespace ContextEditor
                 Console.WriteLine("File does not exist: " + dir);
             }
         }
+
         public static void AddKey(string name, string dir, string iconPath)
         {
             if (File.Exists(dir))
             {
-                using (var key = Registry.ClassesRoot.OpenSubKey("Directory\\Background\\shell", true)?.CreateSubKey(name)?.CreateSubKey("command"))
+                using (var shellKey = Registry.ClassesRoot.OpenSubKey("Directory\\Background\\shell", true))
                 {
-                    key?.SetValue("", dir);
-                    key?.SetValue("Icon", iconPath); // Add the icon path
-                    Console.WriteLine(key != null ? "Created key: " + key.ToString() : "Failed to create registry key.");
+                    if (shellKey != null)
+                    {
+                        using (var newKey = shellKey.CreateSubKey(name)?.CreateSubKey("command"))
+                        {
+                            if (newKey != null)
+                            {
+                                newKey.SetValue("", dir);
+                                newKey.SetValue("Icon", iconPath);
+                                Console.WriteLine("Created key: " + newKey.ToString());
+                            }
+                            else
+                            {
+                                Console.WriteLine("Failed to create registry key.");
+                            }
+                        }
+
+                        using (var existingKey = shellKey.OpenSubKey(name, true))
+                        {
+                            if (existingKey != null)
+                            {
+                                existingKey.SetValue("Icon", iconPath);
+                                Console.WriteLine("Updated key: " + existingKey.ToString());
+                            }
+                            else
+                            {
+                                Console.WriteLine("Failed to open existing registry key.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to open shell registry key.");
+                    }
                 }
             }
             else
@@ -102,22 +168,55 @@ namespace ContextEditor
             }
         }
 
-        public static string[] GetExistingKeys()
+        public static List<string> GetExistingKeys()
         {
+            List<string> existingKeys = new List<string>();
+
             using (var key = Registry.ClassesRoot.OpenSubKey("Directory\\Background\\shell", true))
             {
                 if (key != null)
                 {
-                    string[] existingKeys = key.GetSubKeyNames();
-                    return existingKeys;
+                    existingKeys.AddRange(key.GetSubKeyNames());
                 }
                 else
                 {
                     Console.WriteLine("Failed to open registry key.");
-                    return new string[0]; // In case of an error, return empty array
                 }
             }
+
+            return existingKeys;
         }
+
+        public static List<string> GetExistingDirectories() // Gets the directory of each one.
+            {
+                List<string> existingDirs = new List<string>();
+                using (var shellKey = Registry.ClassesRoot.OpenSubKey("Directory\\Background\\shell", true))
+                {
+                    if (shellKey != null)
+                    {
+                        foreach (var keyName in shellKey.GetSubKeyNames())
+                        {
+                            using (var key = shellKey.OpenSubKey(keyName)?.OpenSubKey("command"))
+                            {
+                                if (key != null)
+                                {
+                                    string directory = key.GetValue("") as string;
+                                    if (!string.IsNullOrEmpty(directory))
+                                    {
+                                        existingDirs.Add(directory);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to open registry key.");
+                        return existingDirs;
+                    }
+                return existingDirs;
+                }
+            }
         public static string arrToString(string[] array)
         {
             string logString = string.Join(", ", array);
@@ -125,18 +224,43 @@ namespace ContextEditor
             return logString;
         }
 
-        public void updateListBox() // Refreshes the list box, best for accurate index between the existingkeys array and GetExisting() ykyk
+        public void updateListBox(bool full) // Refreshes the list box, best for accurate index between the existingkeys array and GetExisting() ykyk
         {
             main_listbox.Items.Clear();
-            foreach (string key in GetExistingKeys()) // Register existing keys into the listbox
+            if (full == true)
             {
-                listItem item = new listItem();
-                item.Name = key;
-                main_listbox.Items.Add(item);
+                List<string> existingKeys = GetExistingKeys();
+                List<string> existingDirectories = GetExistingDirectories();
+
+                // Iterate back and forth between keys and directories
+                IEnumerator<string> keysEnumerator = existingKeys.GetEnumerator();
+                IEnumerator<string> dirsEnumerator = existingDirectories.GetEnumerator();
+
+                while (keysEnumerator.MoveNext() && dirsEnumerator.MoveNext())
+                {
+                    // Create listItem and add to main_listbox
+                    listItem item = new listItem();
+                    item.Name = keysEnumerator.Current;
+                    item.Directory = dirsEnumerator.Current;
+                    main_listbox.Items.Add(item.getFullText());
+                }
+            }
+            else
+            {
+                List<string> existingKeys = GetExistingKeys();
+                IEnumerator<string> keysEnumerator = existingKeys.GetEnumerator();
+
+                while (keysEnumerator.MoveNext())
+                {
+                    // Create listItem and add to main_listbox
+                    listItem item = new listItem();
+                    item.Name = keysEnumerator.Current;
+                    main_listbox.Items.Add(item);
+                }
             }
             log("Updated listbox");
         }
-        
+
 
     }
 

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using Microsoft.Win32;
+using System.Collections.Generic;
 
 namespace ContextEditor
 {
@@ -21,29 +22,20 @@ namespace ContextEditor
         public object selectedItem;
 
         // Keep track of existing context menu items
-        public string[] existingKeys = GetExistingKeys();
+        public List<string> existingKeys = GetExistingKeys();
 
         public MainWindow()
         {
             InitializeComponent();
-            foreach(string key in GetExistingKeys()) // Register existing keys into the listbox
-            {
-                listItem item = new listItem();
-                item.Name = key;
-                main_listbox.Items.Add(item);
-            }
-            log($"Existing keys: '{arrToString(GetExistingKeys())}', {GetExistingKeys().Length} items"); // log!
+            updateListBox(false);
         }
-
-
-
 
         // CHANGED STUFF
 
         private void main_nameTextbox_TextChanged(object sender, EventArgs e)
         {
             raw_name = main_nameTextbox.Text;
-            verifyParams();
+            VerifyParams();
         }
 
         private void main_directoryTextbox_TextChanged(object sender, EventArgs e)
@@ -56,7 +48,7 @@ namespace ContextEditor
             {
                 main_directoryTextbox.ForeColor = Color.Red;
             }
-            verifyParams();
+            VerifyParams();
         }
         private void main_iconDirectoryTextbox_TextChanged(object sender, EventArgs e)
         {
@@ -67,7 +59,7 @@ namespace ContextEditor
             {
                 main_iconDirectoryTextbox.ForeColor = Color.Red;
             }
-            verifyParams();
+            VerifyParams();
         }
 
         private void main_listbox_SelectedIndexChanged(object sender, EventArgs e)
@@ -82,12 +74,25 @@ namespace ContextEditor
             if(main_iconDirectoryCheckbox.Checked == true)
             {
                 main_iconDirectoryTextbox.Enabled = true;
+                main_browseIconButton.Enabled = true;
             } else
             {
                 main_iconDirectoryTextbox.Enabled = false;
+                main_browseIconButton.Enabled = false;
             }
         }
 
-        
+        private void main_showDirectoryCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (main_showDirectoryCheck.Checked == true)
+            {
+                updateListBox(true);
+            }
+            else
+            {
+                updateListBox(false);
+            }
+        }
+
     }
 }
