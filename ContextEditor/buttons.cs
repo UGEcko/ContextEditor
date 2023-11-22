@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using Microsoft.Win32;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace ContextEditor
@@ -9,29 +12,29 @@ namespace ContextEditor
         {
             try
             {
-                listItem item = new listItem();
-                item.Name = main_nameTextbox.Text;
-                item.Directory = main_directoryTextbox.Text;
-                savedName = main_nameTextbox.Text;
-                savedDir = main_directoryTextbox.Text;
-                main_listbox.Items.Add(item.getFullText());
-                if (main_iconDirectoryCheckbox.Checked == true)
-                {
-                    AddKey(savedName, savedDir, main_iconDirectoryTextbox.Text);
-                }
-                else
-                {
-                    AddKey(savedName, savedDir);
-                }
-                log($"Removed {item.Name}");
-                if (main_showDirectoryCheck.Checked == true)
-                {
-                    updateListBox(true);
-                }
-                else
-                {
-                    updateListBox(false);
-                }
+                    listItem item = new listItem();
+                    item.Name = main_nameTextbox.Text;
+                    item.Directory = main_directoryTextbox.Text;
+                    savedName = main_nameTextbox.Text;
+                    savedDir = main_directoryTextbox.Text;
+                    main_listbox.Items.Add(item);
+                    if (main_iconDirectoryCheckbox.Checked == true)
+                    {
+                        AddKey(savedName, savedDir, main_iconDirectoryTextbox.Text);
+                    }
+                    else
+                    {
+                        AddKey(savedName, savedDir);
+                    }
+                    if (main_showDirectoryCheck.Checked == true)
+                    {
+                        updateListBox(true);
+                    }
+                    else
+                    {
+                        updateListBox(false);
+                    }
+                log($"ADDED {item} " + arrToString(GetExistingKeys().ToArray()));
             }
             catch (Exception ex)
             {
@@ -45,18 +48,23 @@ namespace ContextEditor
             {
                 string item = selectedItem.ToString();
                 int itemIndex = main_listbox.SelectedIndex;
-                main_listbox.Items.Remove(selectedItem);
+                log(main_listbox.Items.Count.ToString());
                 main_removeButton.Enabled = false;
                 RemoveKey(GetExistingKeys()[itemIndex]); // Use selectedIndex and arrayindex to find the correct item and delete it!
-                log($"Removed {item}");
-                if(main_showDirectoryCheck.Checked == true)
+                if (main_showDirectoryCheck.Checked == true)
                 {
                     updateListBox(true);
-                } else
+                }
+                else
                 {
                     updateListBox(false);
                 }
-            }
+                if (GetExistingKeys()[itemIndex].ToString() == main_nameTextbox.Text)
+                {
+                    main_nameTextbox.Text = string.Empty;
+                    main_directoryTextbox.Text = string.Empty;
+                }
+                log($"Removed {item}");            }
             catch (Exception ex)
             {
                 log($"Error during remove process: {ex.Message}");
@@ -69,8 +77,7 @@ namespace ContextEditor
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Title = "Select a File";
-                openFileDialog.Filter = "Icon Files (*.ico)|*.ico";
-
+                openFileDialog.Filter = "Icon Files|*.ico";
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {

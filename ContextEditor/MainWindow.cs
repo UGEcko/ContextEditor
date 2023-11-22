@@ -20,14 +20,16 @@ namespace ContextEditor
         public string savedDir;
 
         public object selectedItem;
+        public int selectedItemIndex;
 
         // Keep track of existing context menu items
-        public List<string> existingKeys = GetExistingKeys();
 
         public MainWindow()
         {
             InitializeComponent();
             updateListBox(false);
+
+            log(arrToString(GetExistingKeys().ToArray()));
         }
 
         // CHANGED STUFF
@@ -59,14 +61,15 @@ namespace ContextEditor
             {
                 main_iconDirectoryTextbox.ForeColor = Color.Red;
             }
-            VerifyParams();
         }
 
         private void main_listbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedItem = main_listbox.SelectedItem;
+            selectedItemIndex = main_listbox.SelectedIndex;
+            main_directoryTextbox.Text = GetExistingDirectories()[selectedItemIndex];
+            main_nameTextbox.Text = GetExistingKeys()[selectedItemIndex];
             main_removeButton.Enabled = true;
-            log("Selected " + selectedItem);
         }
 
         private void main_iconDirectoryCheckbox_CheckedChanged(object sender, EventArgs e)

@@ -15,41 +15,18 @@ namespace ContextEditor
 
         public bool VerifyParams()
         {
-            string directory = main_directoryTextbox.Text.Trim();
-            string iconDir = main_iconDirectoryTextbox.Text.Trim();
 
-            if (File.Exists(directory) && !string.IsNullOrWhiteSpace(main_nameTextbox.Text))
+            if (!string.IsNullOrWhiteSpace(main_nameTextbox.Text) && !string.IsNullOrWhiteSpace(main_directoryTextbox.Text))
             {
-                log("Valid name and directory");
                 main_addButton.Enabled = true;
-
-                if (main_iconDirectoryCheckbox.Checked)
-                {
-                    if (File.Exists(iconDir) && main_iconDirectoryTextbox.Text.EndsWith(".ico"))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        log("Invalid icon directory or not a .ico file");
-                        main_addButton.Enabled = false;
-                        return false;
-                    }
-                }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
             else
             {
-                log("Invalid name or directory " + iconDir);
-                MessageBox.Show("Invalid name or directory " + iconDir);
                 main_addButton.Enabled = false;
                 return false;
             }
         }
-
 
         public class listItem
         {
@@ -118,7 +95,7 @@ namespace ContextEditor
                             {
                                 Console.WriteLine("Failed to create registry key.");
                                 MessageBox.Show("Failed to create registry key.");
-                                
+
                             }
                         }
 
@@ -186,36 +163,36 @@ namespace ContextEditor
         }
 
         public static List<string> GetExistingDirectories() // Gets the directory of each one.
+        {
+            List<string> existingDirs = new List<string>();
+            using (var shellKey = Registry.ClassesRoot.OpenSubKey("Directory\\Background\\shell", true))
             {
-                List<string> existingDirs = new List<string>();
-                using (var shellKey = Registry.ClassesRoot.OpenSubKey("Directory\\Background\\shell", true))
+                if (shellKey != null)
                 {
-                    if (shellKey != null)
+                    foreach (var keyName in shellKey.GetSubKeyNames())
                     {
-                        foreach (var keyName in shellKey.GetSubKeyNames())
+                        using (var key = shellKey.OpenSubKey(keyName)?.OpenSubKey("command"))
                         {
-                            using (var key = shellKey.OpenSubKey(keyName)?.OpenSubKey("command"))
+                            if (key != null)
                             {
-                                if (key != null)
+                                string directory = key.GetValue("") as string;
+                                if (!string.IsNullOrEmpty(directory))
                                 {
-                                    string directory = key.GetValue("") as string;
-                                    if (!string.IsNullOrEmpty(directory))
-                                    {
-                                        existingDirs.Add(directory);
-                                    }
+                                    existingDirs.Add(directory);
                                 }
                             }
                         }
                     }
-                    else
-                    {
+                }
+                else
+                {
                     MessageBox.Show("Failed to open registry key. 'GetExistingDirectories'");
                     Console.WriteLine("Failed to open registry key.");
                     return existingDirs;
-                    }
-                return existingDirs;
                 }
+                return existingDirs;
             }
+        }
         public static string arrToString(string[] array)
         {
             string logString = string.Join(", ", array);
@@ -231,7 +208,6 @@ namespace ContextEditor
                 List<string> existingKeys = GetExistingKeys();
                 List<string> existingDirectories = GetExistingDirectories();
 
-                // Iterate back and forth between keys and directories
                 IEnumerator<string> keysEnumerator = existingKeys.GetEnumerator();
                 IEnumerator<string> dirsEnumerator = existingDirectories.GetEnumerator();
 
@@ -246,14 +222,10 @@ namespace ContextEditor
             }
             else
             {
-                List<string> existingKeys = GetExistingKeys();
-                IEnumerator<string> keysEnumerator = existingKeys.GetEnumerator();
-
-                while (keysEnumerator.MoveNext())
+                foreach (string key in GetExistingKeys()) 
                 {
-                    // Create listItem and add to main_listbox
                     listItem item = new listItem();
-                    item.Name = keysEnumerator.Current;
+                    item.Name = key;
                     main_listbox.Items.Add(item);
                 }
             }
@@ -263,5 +235,5 @@ namespace ContextEditor
 
     }
 
-    
+
 }
