@@ -24,6 +24,10 @@ Then hit Add and play with your button!
 
 To remove, select a name that corresponds to the correct program and hit the remove button at the bottom.
 
+Known Current Limitations:
+
+* Doesnt consider anything other than an exe file valid, so for powershell scripts, they will work but will be red in text.
+
 
 Nice to knows:
 
