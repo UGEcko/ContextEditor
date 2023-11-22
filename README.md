@@ -37,6 +37,11 @@ Nice to knows:
 * Existing context buttons are loaded in if detected.
 
 
+Cool one you can add:
+
+Name: Task Manager
+Dir: tackmgr.exe / 7 
+
 Roadmap:
 
 Make UI the best it can be
