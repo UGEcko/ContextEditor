@@ -1,9 +1,8 @@
 # ContextEditor
 A windows application enabling you to edit context menu buttons! (readMe will be updated when im not sleep deprived)
-<p>
-Example:
 
-![image](https://github.com/UGEcko/ContextEditor/assets/38820051/1097a326-8729-4274-857e-c09c5854e9ef)
+![image](https://github.com/UGEcko/ContextEditor/assets/38820051/d27bfe6f-b5f1-4d93-a4c5-f046b8953b66)
+
 
 
 Use Context editor to edit your context menu!
@@ -31,11 +30,10 @@ Nice to knows:
 * The Program directory and Icon Directory text fields have a green text for valid directories, and red text for invalid directories
 * The add button is not enabled unless a valid name and directory is provided. If you check the icon field, the icon must be valid aswell.
 * The remove button is not enabled unless a name in the list has been selected.
+* Existing context buttons are loaded in if detected.
 
 
 Roadmap:
-
-Add Directory information in list
 
 Make UI the best it can be
 
