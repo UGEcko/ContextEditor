@@ -7,7 +7,7 @@ A windows application enabling you to edit context menu buttons! (readMe will be
 
 Use Context editor to edit your context menu!
 
-[Install Here](github.com/UGEcko/ContextEditor/releases)
+[Install Here](https://github.com/UGEcko/ContextEditor/releases)
 
 Simply add a name, a file directory, maybe even an icon, and your ready to go. Hit add and it will be visible!
 
